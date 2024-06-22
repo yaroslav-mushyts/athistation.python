@@ -16,3 +16,9 @@ lst += ['human'] * 10
 random.shuffle(lst)
 data = pd.DataFrame({'whoAmI':lst})
 
+encode = OneHotEncoder(handle_unknown='ignore')
+encode_df = pd.DataFrame(encode.fit_transform(data[['whoAmI']]).toarray()).astype(int)
+final_df = data.join(encode_df)
+final_df.drop(final_df[[0]], axis= 1 , inplace= True )
+final_df.rename(columns={1: 'lst'}, inplace=True)
+print(final_df.head())
